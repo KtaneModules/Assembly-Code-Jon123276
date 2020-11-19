@@ -140,24 +140,41 @@ public class AssemblyCode : MonoBehaviour
 #pragma warning restore 414
     IEnumerator ProcessTwitchCommand(string command)
     {
-        string[] parameters = command.Split(' ');
-        yield return null;
+        var parameters = command.Split(' ');
         if (Regex.IsMatch(parameters[0], @"^\s*L\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
         {
             if (parameters.Length < 2) { yield return "sendtochaterror Please specify how many times you want this button to be pressed (from 1 to 80.)"; yield break; }
-            for (int i = 0; i < int.Parse(parameters[1])%81; i++)
+            if (int.TryParse(parameters[1], out j))
             {
-                buttons[0].OnInteract();
-                yield return new WaitForSeconds(0.01f);
+                yield return null;
+                for (int i = 0; i < j%81; i++)
+                {
+                    buttons[0].OnInteract();
+                    yield return new WaitForSeconds(0.01f);
+                } 
+            }
+            else
+            {
+                yield return "sendtochaterror Please specify how many times you want this button to be pressed (from 1 to 80.)";
+                yield break;
             }
         }
         else if (Regex.IsMatch(parameters[0], @"^\s*R\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
         {
             if (parameters.Length < 2) { yield return "sendtochaterror Please specify how many times you want this button to be pressed (from 1 to 80.)"; yield break; }
-            for (int i = 0; i < int.Parse(parameters[1])%81; i++)
+            if (int.TryParse(parameters[1], out j))
             {
-                buttons[1].OnInteract();
-                yield return new WaitForSeconds(0.01f);
+                yield return null;
+                for (int i = 0; i < j%81; i++)
+                {
+                    buttons[1].OnInteract();
+                    yield return new WaitForSeconds(0.01f);
+                } 
+            }
+            else
+            {
+                yield return "sendtochaterror Please specify how many times you want this button to be pressed (from 1 to 80.)";
+                yield break;
             }
         }
         else if (Regex.IsMatch(parameters[0], @"^\s*submit\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
